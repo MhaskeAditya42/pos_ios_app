@@ -40,7 +40,7 @@ class _MerchantCodeScreenState extends State<MerchantCodeScreen> {
         final data = json.decode(response.body);
 
         // Check if the merchant code is valid (use the actual key returned by your API)
-        if (data["merchantCode"].toString() == merchantCode) {
+        if (data[0]["merchantCode"].toString() == merchantCode) {
           // Save merchant code to local storage
           await saveMerchantCode(merchantCode);
 
@@ -76,7 +76,7 @@ class _MerchantCodeScreenState extends State<MerchantCodeScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: showWebView
-          ? WebViewScreen(url: loginUrl) // Load the WebView if the URL is set
+          ? WebViewContainer(url: loginUrl) // Load the WebView if the URL is set
           : Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -145,23 +145,35 @@ class _MerchantCodeScreenState extends State<MerchantCodeScreen> {
   }
 }
 
-// WebView widget to display the login page
-class WebViewScreen extends StatelessWidget {
+// WebView widget to display the login page with the merchant code URL
+class WebViewContainer extends StatefulWidget {
   final String url;
 
-  const WebViewScreen({required this.url, super.key});
+  const WebViewContainer({required this.url, super.key});
+
+  @override
+  State<WebViewContainer> createState() => _WebViewContainerState();
+}
+
+class _WebViewContainerState extends State<WebViewContainer> {
+  late WebViewController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the WebView controller and load the URL
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted) // Enable JavaScript
+      ..loadRequest(Uri.parse(widget.url)); // Load initial URL from the parent widget
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
-        backgroundColor: Colors.black,
+        title: const Text('Merchant Login'),
       ),
-      // body: WebView(
-      //   initialUrl: url,
-      //   javascriptMode: JavascriptMode.unrestricted,
-      // ),
+      body: WebViewWidget(controller: controller), // Display WebView with the controller
     );
   }
 }
