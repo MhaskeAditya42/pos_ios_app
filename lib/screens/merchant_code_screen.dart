@@ -76,12 +76,13 @@ class _MerchantCodeScreenState extends State<MerchantCodeScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: showWebView
-          ? WebViewContainer(url: loginUrl) // Load the WebView if the URL is set
+          ? WebViewContainer(
+              url: loginUrl) // Load the WebView if the URL is set
           : Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('../assets/menu_live_logo.png', height: 100),
+                  Image.asset('../assests/menulive_icon.png', height: 100),
                   const SizedBox(height: 20),
                   const Text(
                     'Welcome!',
@@ -164,7 +165,8 @@ class _WebViewContainerState extends State<WebViewContainer> {
     // Initialize the WebView controller and load the URL
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted) // Enable JavaScript
-      ..loadRequest(Uri.parse(widget.url)); // Load initial URL from the parent widget
+      ..loadRequest(
+          Uri.parse(widget.url)); // Load initial URL from the parent widget
   }
 
   @override
@@ -173,7 +175,8 @@ class _WebViewContainerState extends State<WebViewContainer> {
       appBar: AppBar(
         title: const Text('Merchant Login'),
       ),
-      body: WebViewWidget(controller: controller), // Display WebView with the controller
+      body: WebViewWidget(
+          controller: controller), // Display WebView with the controller
     );
   }
 }

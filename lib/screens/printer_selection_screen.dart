@@ -20,7 +20,7 @@ class _PrinterSelectionScreenState extends State<PrinterSelectionScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('../assets/menu_live_logo.png', height: 100),
+          Image.asset('../assets/menulive_icon.png', height: 100),
           const SizedBox(height: 20),
           const Text(
             'Choose Printer Preference!',
